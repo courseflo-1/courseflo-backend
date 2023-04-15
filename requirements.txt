@@ -1,5 +1,7 @@
 Flask==2.2.3
+flask_sqlalchemy
 pg8000==1.24.2
 SQLAlchemy==2.0.4
 cloud-sql-python-connector==1.2.1
 gunicorn==20.1.0
+openpyxl
