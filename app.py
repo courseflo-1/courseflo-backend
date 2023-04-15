@@ -1,6 +1,9 @@
-import os
+from flask import Flask
+
 from supabase import create_client, Client
 import config
+
+app = Flask(__name__)
 
 url: str = config.SUPABASE_URL
 key: str = config.SUPABASE_KEY
@@ -31,3 +34,10 @@ def get_course(school: int, id: int) -> dict:
     for course in data:
         if course['id'] == id:
             return course
+
+@app.route('/')
+def root_page():
+    return fetch_schools()
+
+if __name__ == "__main__":
+    app.run(debug=True)
