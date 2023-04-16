@@ -1,21 +1,31 @@
 import pandas as pd
 
 def get_data():
-    data = pd.read_excel('fall2023.xlsx', header=0)
+    data = pd.read_excel('spring2023.xlsx', header=0)
     # data.dropna()
-    data.dropna(subset=['Course'], inplace=True)
+    data1 = pd.read_excel('fall2023.xlsx', header=0)
+    data1['abbr_name'] = data1['Course']+data1['Number']
     data['abbr_name'] = data['Course']+data['Number']
+    
+    # res = offerings[~offerings['abbr_name'].isin(data1['abbr_name'])]
+    # data = data[~data['abbr_name'].isin(data1['abbr_name'])]
+    # # res = res[['full_name', 'abbr_name', 'credits','semester', 'school']]
+    # print(data.head())
+    # print(data[data['abbr_name'].str.startswith('EECS')])
+    
+    data.dropna(subset=['Course'], inplace=True)
+    
     data['full_name']=data['Course title']
     data['credits'] = data['Max Hrs'].astype(int)
-    data['semester'] = 'Fall2023'
+    data['semester'] = 'Spring2023'
     data['school'] = 1
-    # data['credits'] = data['credits'].astype(int)
     data['year'] = 2023
     data['prof']=data['Instructor']
     
     print(data.head())
     print(len(data))
     offerings = data.copy()
+    
     offerings['start_time'] = offerings['Start']
     offerings['end_time'] = offerings['End']
     offerings = offerings[['full_name', 'abbr_name', 'start_time', 'end_time', 'semester', 'year', 'prof', 'school']]
@@ -30,8 +40,13 @@ def get_data():
     print(classes.head())
     print(len(classes))
     # print(classes[classes['abbr_name'] == 'EECS 168'])
-    offerings.to_csv('offerings.csv', index=False)
-    classes.to_csv('classes.csv', index=False)
+    # distinct_classes = pd.concat([data, data1]).drop_duplicates(subset=['abbr_name'], keep=False)
+    # res = pd.merge(classes, distinct_classes, on=list(classes.columns))
+    # print(res.head())
+    
+    
+    offerings.to_csv('offerings3.csv', index=False)
+    # classes.to_csv('classes3.csv', index=False)
     
     return classes, offerings
     # offerings['']
